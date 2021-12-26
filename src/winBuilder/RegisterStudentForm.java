@@ -6,10 +6,18 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
@@ -26,6 +34,13 @@ public class RegisterStudentForm extends JFrame {
 	private JTextField regNo;
 	private JTextField age;
 	private JTextField studentClass;
+	private JComboBox gender;
+	private JComboBox subject;
+	
+	// for the control statements
+	private String stuSubject;
+	private String stuGender;
+	
 
 	/**
 	 * Launch the application.
@@ -60,10 +75,15 @@ public class RegisterStudentForm extends JFrame {
 		Heading.setBounds(152, 11, 184, 22);
 		contentPane.add(Heading);
 		
-		JLabel StudentName = new JLabel("First Name ");
-		StudentName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		StudentName.setBounds(57, 64, 75, 22);
-		contentPane.add(StudentName);
+		JLabel FirstName = new JLabel("First Name ");
+		FirstName.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		FirstName.setBounds(57, 64, 75, 22);
+		contentPane.add(FirstName);
+		
+		JLabel LastName = new JLabel("Last Name ");
+		LastName.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		LastName.setBounds(261, 64, 75, 22);
+		contentPane.add(LastName);
 		
 		JLabel RegNumber = new JLabel("Reg No.");
 		RegNumber.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -75,10 +95,6 @@ public class RegisterStudentForm extends JFrame {
 		Age.setBounds(57, 147, 75, 22);
 		contentPane.add(Age);
 		
-		JLabel LastName = new JLabel("Last Name ");
-		LastName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		LastName.setBounds(261, 64, 75, 22);
-		contentPane.add(LastName);
 		
 		JLabel Gender = new JLabel("Gender");
 		Gender.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -120,13 +136,13 @@ public class RegisterStudentForm extends JFrame {
 		studentClass.setBounds(129, 196, 122, 20);
 		contentPane.add(studentClass);
 		
-		JComboBox gender = new JComboBox();
-		gender.setModel(new DefaultComboBoxModel(new String[] {"Select Gender", "Male", "Female"}));
+		String[] genderArr = {"Select Gender","Male", "Female"};
+		gender = new JComboBox(genderArr);
 		gender.setBounds(324, 106, 122, 22);
 		contentPane.add(gender);
 		
-		JComboBox subject = new JComboBox();
-		subject.setModel(new DefaultComboBoxModel(new String[] {"Select Subject", "Maths", "English", "SST", "Science"}));
+		String[] subjectArr = {"Select Subject", "Maths", "English", "SST", "Science"};
+		subject = new JComboBox(subjectArr);
 		subject.setBounds(324, 148, 122, 22);
 		contentPane.add(subject);
 		
@@ -138,10 +154,46 @@ public class RegisterStudentForm extends JFrame {
 				String lastName = lName.getText().toString();
 				String regNum = regNo.getText().toString();
 				String stuAge = age.getText().toString();
-				String stuGender = gender.getSelectedItem().toString();
-				String stuSubject = subject.getSelectedItem().toString();
 				String stuClass = studentClass.getText().toString();	
 				
+				if(gender.getSelectedIndex()== 0) {
+					JOptionPane.showMessageDialog(submitBtn, "Select a proper gender");
+					System.out.println("Select a proper gender");
+					return;
+				}else {					
+					stuGender = gender.getSelectedItem().toString();
+				}
+				
+				if(subject.getSelectedIndex()== 0) {
+					JOptionPane.showMessageDialog(submitBtn, "Select a proper subject");
+					System.out.println("Select a proper subject");
+					return;
+				}else {					
+					stuSubject = subject.getSelectedItem().toString();
+				}
+				
+				if(gender.getSelectedIndex()!=0 || subject.getSelectedIndex()!=0) {
+					try {
+	                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kkps", "root", "");
+						String query = "INSERT INTO students(firstName, lastName, stuAge, regNum, stuGender, stuSubject, stuClass)"
+								+ " VALUES(?,?,?,?,?,?,?)";
+						PreparedStatement sta = connection.prepareStatement(query);
+						sta.setString(1, firstName);
+						sta.setString(2, lastName);
+						sta.setString(3, stuAge);
+						sta.setString(4, regNum);
+						sta.setString(5, stuGender);
+						sta.setString(6, stuSubject);
+						sta.setString(7, stuClass);
+						
+						
+						int i = sta.executeUpdate();
+						System.out.println(i + "records inserted");
+						connection.close();
+					}catch(Exception exe) {
+						exe.printStackTrace();
+					}
+				}
 				System.out.format("%s,%s,%s,%s,%s,%s,%s", firstName, lastName, regNum, stuAge, stuGender, stuSubject, stuClass);
 				
 			}
@@ -152,6 +204,18 @@ public class RegisterStudentForm extends JFrame {
 		contentPane.add(submitBtn);
 		
 		JButton cancelBtn = new JButton("Cancel");
+		cancelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// clear input fields
+				fName.setText("");
+				lName.setText("");
+				regNo.setText("");
+				age.setText("");
+				studentClass.setText("");
+				gender.setSelectedIndex(0);
+				subject.setSelectedIndex(0);
+			}
+		});
 		cancelBtn.setForeground(Color.RED);
 		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cancelBtn.setBounds(261, 240, 89, 23);
