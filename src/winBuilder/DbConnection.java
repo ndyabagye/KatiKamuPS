@@ -9,7 +9,7 @@ public class DbConnection{
 	
 	public Connection getDbConnection() throws SQLException{
 		try {
-			String connect = "jdbc:mysql:localhost:3306/kkps";
+			String connect = "jdbc:mysql://localhost:3306/kkps";
 			String username = "root";
 			String password = "";
 			Connection con =  DriverManager.getConnection(connect, username,password);

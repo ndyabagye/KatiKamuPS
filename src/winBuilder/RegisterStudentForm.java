@@ -174,7 +174,7 @@ public class RegisterStudentForm extends JFrame {
 				
 				if(gender.getSelectedIndex()!=0 || subject.getSelectedIndex()!=0) {
 					try {
-	                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/kkps", "root", "");
+						Connection connection = new DbConnection().getDbConnection();
 						String query = "INSERT INTO students(firstName, lastName, stuAge, regNum, stuGender, stuSubject, stuClass)"
 								+ " VALUES(?,?,?,?,?,?,?)";
 						PreparedStatement sta = connection.prepareStatement(query);
