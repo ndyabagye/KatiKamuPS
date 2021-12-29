@@ -1,15 +1,10 @@
 package winBuilder;
 
 import javax.swing.JPanel;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
-import javax.swing.JToolBar;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import java.awt.Insets;
 import javax.swing.JTable;
