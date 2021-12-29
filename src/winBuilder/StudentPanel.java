@@ -2,6 +2,7 @@ package winBuilder;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -21,6 +22,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
+import java.awt.event.*;
 
 public class StudentPanel extends JPanel {
 	private JTable table;
@@ -84,9 +86,17 @@ public class StudentPanel extends JPanel {
         table.setRowSorter(sort);
 
         JPanel p = new JPanel(new BorderLayout());
-        p.add(new JLabel("Search for a word:"), BorderLayout.WEST);
+        p.add(new JLabel("Search students:"), BorderLayout.WEST);
         p.add(textField, BorderLayout.CENTER);
-
+        
+        table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+            	JTable target = (JTable)me.getSource();
+                int row = target.getSelectedRow(); // select a row
+                //JOptionPane.showMessageDialog(null, table.getValueAt(row, 0));
+            }
+         });
+        
         setLayout(new BorderLayout());
         add(p, BorderLayout.SOUTH);
         add(new JScrollPane(table), BorderLayout.CENTER);

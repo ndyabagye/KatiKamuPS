@@ -56,6 +56,7 @@ public class HomePage extends JFrame {
 				StudentPanel spanel = new StudentPanel();	
 				setContentPane(spanel);
 				getContentPane().revalidate();
+				System.out.println("here now");
 			}
 		});
 		
