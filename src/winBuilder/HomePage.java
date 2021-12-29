@@ -67,12 +67,18 @@ public class HomePage extends JFrame {
 				MarksPanel mpanel = new MarksPanel();
 				setContentPane(mpanel);
 				getContentPane().revalidate();
-				System.out.print("Here");
 			}
 		});
 		menuBar.add(btnNewButton_2);
 		
 		JButton btnNewButton = new JButton("Registration");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StudentRegistrationPanel srpanel = new StudentRegistrationPanel();
+				setContentPane(srpanel);
+				getContentPane().revalidate();
+			}
+		});
 		menuBar.add(btnNewButton);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 	}
