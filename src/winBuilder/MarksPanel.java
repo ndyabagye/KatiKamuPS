@@ -1,14 +1,28 @@
 package winBuilder;
 
-import javax.swing.JPanel;
+
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
-import javax.swing.JButton;
 import java.awt.GridBagConstraints;
-import javax.swing.JMenuBar;
-import javax.swing.JScrollPane;
 import java.awt.Insets;
-import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import java.awt.event.*;
+
 
 public class MarksPanel extends JPanel {
 	private JTable table;
@@ -17,51 +31,179 @@ public class MarksPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public MarksPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{450, 0};
-		gridBagLayout.rowHeights = new int[]{22, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		
-		JMenuBar menuBar = new JMenuBar();
-		GridBagConstraints gbc_menuBar = new GridBagConstraints();
-		gbc_menuBar.insets = new Insets(0, 0, 5, 0);
-		gbc_menuBar.fill = GridBagConstraints.BOTH;
-		gbc_menuBar.gridx = 0;
-		gbc_menuBar.gridy = 0;
-		add(menuBar, gbc_menuBar);
-		
-		JButton btnNewButton = new JButton("English");
-		menuBar.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Mathematics");
-		menuBar.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Science");
-		menuBar.add(btnNewButton_2);
-		
-		JButton btnNewButton_3 = new JButton("SST");
-		menuBar.add(btnNewButton_3);
-		
+		setLayout(new GridLayout(0, 1, 0, 0));
 		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
-		add(scrollPane, gbc_scrollPane);
+		add(scrollPane);
+		String[] columns = new String[] {"id","Reg No.", "Name", "Math", "Sci", "SST", "English"};
+        String[][] data = {};
+		ArrayList<String[]> studentList = new ArrayList<String[]>(Arrays.asList(data));  
+        
+        try {
+    		Connection connection = new DbConnection().getDbConnection();
+    		String query = "SELECT * FROM students";
+
+    	    // create the java statement
+    	    Statement studentStatement = connection.createStatement();
+    	      
+    	    // execute the query, and get a java
+    	    ResultSet studentResult = studentStatement.executeQuery(query);
+    	 
+    		
+    	    // iterate through the java
+    	    while (studentResult.next()){
+    	        int id = studentResult.getInt("id");
+    	        String regNum = studentResult.getString("regNum");
+    	        String studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
+    	        String studMath = String.valueOf(studentResult.getInt("Maths"));
+    	        String studSci = String.valueOf(studentResult.getInt("Science"));
+    	        String studSST = String.valueOf(studentResult.getInt("SST"));
+    	        String studEnglish = String.valueOf(studentResult.getInt("English"));
+     	       
+    	        String [] student = {String.valueOf(id), regNum, studName, studMath, studSci, studSST, studEnglish};
+    	        studentList.add(student);
+    	    }
+    	    
+    	    data = studentList.toArray(data);
+    	
+    	    studentStatement.close();
+    	}catch(Exception exe) {
+    		System.out.println("here");
+    		exe.printStackTrace();
+    	}
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"Reg No.", "First Name", "Last Name", "Marks"
-			}
+			data,
+			columns
 		));
-		scrollPane.setViewportView(table);
+		
+		table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+            	JTable target = (JTable)me.getSource();
+                int row = target.getSelectedRow(); // select a row
+                int column = target.getSelectedColumn();
+                int studId = Integer.valueOf(target.getValueAt(row, 0).toString());
+                
+                EditMarksForm editMarks = new EditMarksForm(studId);
+				editMarks.setVisible(true);
+				editMarks.addWindowListener(new WindowAdapter(){
+					@Override
+					public void windowClosing(WindowEvent e){
+						try {
+							Connection connection = new DbConnection().getDbConnection();
+				    		Statement studentStatement = connection.createStatement();
+				    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + studId;
+				    		
+				    		ResultSet studentResult = studentStatement.executeQuery(getStudentQuery);
+				    	     
+				    		while (studentResult.next()) {
+				    			int uptstudId = studentResult.getInt("id");
+				      	        
+				    			String studMath = String.valueOf(studentResult.getInt("Maths"));
+				    	        String studSci = String.valueOf(studentResult.getInt("Science"));
+				    	        String studSST = String.valueOf(studentResult.getInt("SST"));
+				    	        String studEnglish = String.valueOf(studentResult.getInt("English"));
+				     	       
+				      	        System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
+				      	        target.setValueAt((Object)studMath, row, 3);
+				      	        target.setValueAt((Object)studSci, row, 4);
+				      	        target.setValueAt((Object)studSST, row, 5);
+				      	        target.setValueAt((Object)studEnglish, row, 6);
+				    		}
+				    		connection.close();
+      					}catch(Exception exe) {
+      						exe.printStackTrace();
+      					}
 
+					}
+				});
+				    
+				//JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
+            }
+         });
+		//Sort table section
+        TableRowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
+        JTextField textField = new JTextField();
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(2).setPreferredWidth(200);
+        table.setRowSorter(sort);
+        
+        JButton mathsButton = new JButton("Math Marks"); 
+        mathsButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("Maths");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+        
+        JButton sciButton = new JButton("Science Marks"); 
+        sciButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("Science");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+        
+        JButton sstButton = new JButton("Sst Marks");
+        sstButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("SST");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+        
+        JButton engButton = new JButton("English Marks"); 
+        engButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("English");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+         
+        JPanel y = new JPanel();
+        y.add(mathsButton);
+        y.add(sciButton);
+        y.add(sstButton);
+        y.add(engButton);
+        
+        
+        
+        JPanel p = new JPanel(new BorderLayout());
+        p.add(new JLabel("Search marks table:"), BorderLayout.WEST);
+        p.add(textField, BorderLayout.CENTER);
+        p.add(y, BorderLayout.SOUTH);
+        
+        setLayout(new BorderLayout());
+        add(p, BorderLayout.SOUTH);
+        
+        
+        add(new JScrollPane(table), BorderLayout.CENTER);
+        textField.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String str = textField.getText();
+                if (str.trim().length() == 0) {
+                    sort.setRowFilter(null);
+                } else {
+                    //(?i) means case insensitive search
+                    sort.setRowFilter(RowFilter.regexFilter("(?i)" + str));
+                }
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String str = textField.getText();
+                if (str.trim().length() == 0) {
+                    sort.setRowFilter(null);
+                } else {
+                    sort.setRowFilter(RowFilter.regexFilter("(?i)" + str));
+                }
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {}
+        });
 	}
 }
