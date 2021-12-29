@@ -65,8 +65,9 @@ public class EditStudentForm extends JFrame {
 		try {
     		Connection connection = new DbConnection().getDbConnection();
     		Statement studentStatement = connection.createStatement();
-    	    
-    		ResultSet studentResult = studentStatement.executeQuery("SELECT * FROM students WHERE id = " + id);
+    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + id;
+    		
+    		ResultSet studentResult = studentStatement.executeQuery(getStudentQuery);
     	     
     		while (studentResult.next()) {
     			int tstudId = studentResult.getInt("id");
@@ -78,7 +79,7 @@ public class EditStudentForm extends JFrame {
       	        String studGender = studentResult.getString("stuGender");
       	       
       	      setTitle("Edit Student Form");
-      		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       		setBounds(100, 100, 500, 325);
       		contentPane = new JPanel();
       		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -149,34 +150,45 @@ public class EditStudentForm extends JFrame {
       		index = genderList.indexOf(studGender);
       		gender = new JComboBox(genderArr);
       		gender.setBounds(323, 123, 122, 22);
+      		if(index == -1) {
+         		 index = 0;	
+         	}
       		gender.setSelectedIndex(Integer.valueOf(index));
       		contentPane.add(gender);
       		
       		
       		// select for the class
       		String[] classArr = {"Select a class", "P1","P2", "P3", "P4", "P5", "P6", "P7"};
-      		ArrayList<String> classList = new ArrayList<String>(Arrays.asList(genderArr));
-      		index = genderList.indexOf(studClass);
+      		ArrayList<String> classList = new ArrayList<String>(Arrays.asList(classArr));
+      		index = classList.indexOf(studClass);
       		selectClass = new JComboBox(classArr);
       		selectClass.setBounds(323, 165, 122, 22);
+      		if(index == -1) {
+      		 index = 0;	
+      		}	
       		selectClass.setSelectedIndex(Integer.valueOf(index));
+      		
       		contentPane.add(selectClass);
       		
       		JButton updateBtn = new JButton("Update");
       		updateBtn.addActionListener(new ActionListener() {
       			@Override
       			public void actionPerformed(ActionEvent e) {
-      				String firstName = fName.getText().toString();
-      				String lastName = lName.getText().toString();
-      				String regNum = regNo.getText().toString();
-      				String stuAge = age.getText().toString();
+      				String upfirstName = fName.getText().toString();
+      				String uplastName = lName.getText().toString();
+      				String upregNum = regNo.getText().toString();
+      				String upstuAge = age.getText().toString();
+      				String upstuGender;
+      				String upstuClass;
+      				
+      				
       				
       				if(gender.getSelectedIndex()== 0) {
       					JOptionPane.showMessageDialog(updateBtn, "Select a proper gender");
       					System.out.println("Select a proper gender");
       					return;
       				}else {					
-      					stuGender = gender.getSelectedItem().toString();
+      					upstuGender = gender.getSelectedItem().toString();
       				}
       				
       				if(selectClass.getSelectedIndex()== 0) {
@@ -184,32 +196,51 @@ public class EditStudentForm extends JFrame {
       					System.out.println("Select a proper class");
       					return;
       				}else {					
-      					stuClass = selectClass.getSelectedItem().toString();
+      					upstuClass = selectClass.getSelectedItem().toString();
       				}
       				
       				if(gender.getSelectedIndex()!=0 || selectClass.getSelectedIndex()!=0) {
       					try {
       						Connection connection = new DbConnection().getDbConnection();
-      						String query = "INSERT INTO students(firstName, lastName, stuAge, regNum, stuGender, stuClass)"
-      								+ " VALUES(?,?,?,?,?,?)";
-      						PreparedStatement sta = connection.prepareStatement(query);
-      						sta.setString(1, firstName);
-      						sta.setString(2, lastName);
-      						sta.setString(3, stuAge);
-      						sta.setString(4, regNum);
-      						sta.setString(5, stuGender);
-      						sta.setString(6, stuClass);
-      						
-      						
-      						int i = sta.executeUpdate();
-      						System.out.println(i + "records inserted");
-      						connection.close();
+      			    		Statement studentStatement = connection.createStatement();
+      			    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + id;
+      			    		
+      						String updateStudents = "UPDATE students SET "
+      								+ "firstName = '"+ upfirstName 	+ "', "
+      								+ "lastName = '"+ uplastName  + "', "
+      								+ "stuAge = '"+ upstuAge    + "', " 
+      								+ "regNum = '"+ upregNum    +"', " 
+      								+ "stuGender = '"+ upstuGender +"', " 
+      								+ "stuClass = '"+ upstuClass 
+      								+ "' WHERE ID = "+ id ;
+      					
+      						studentStatement.executeUpdate(updateStudents);
+	      			        
+		      	    		ResultSet updateResult = studentStatement.executeQuery(getStudentQuery);
+		      	    	     
+		      	    		while (updateResult.next()) {
+		      	    			
+		      	    			fName.setText(upfirstName);
+		          				lName.setText(uplastName);
+		          				regNo.setText(upregNum);
+		          				age.setText(upstuAge);
+		          				
+		          				index = genderList.indexOf(upstuGender);
+		          				gender.setSelectedIndex(Integer.valueOf(index));
+		          				
+		          				index = classList.indexOf(upstuClass);
+		          				selectClass.setSelectedIndex(Integer.valueOf(index));
+		          				
+		          				// success message
+								JOptionPane.showMessageDialog(updateBtn, "Student updated succesfully");
+		      	    		}
+	      			        connection.close();
       					}catch(Exception exe) {
-      						System.out.println("here");
       						exe.printStackTrace();
       					}
       				}
-      				System.out.format("%s,%s,%s,%s,%s,%s", firstName, lastName, regNum, stuAge, stuGender, stuClass);
+      				
+      				//System.out.format("%s,%s,%s,%s,%s,%s", firstName, lastName, regNum, stuAge, stuGender, stuClass);
       				
       			}
       		});

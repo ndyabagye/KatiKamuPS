@@ -1,25 +1,24 @@
 package winBuilder;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.Color;
 
-public class RegisterStudentForm extends JFrame {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+public class StudentRegistrationPanel extends JPanel {
 
 	private JPanel contentPane;
 	private JTextField fName;
@@ -33,105 +32,73 @@ public class RegisterStudentForm extends JFrame {
 	private String stuClass;
 	private String stuGender;
 	
-
 	/**
-	 * Launch the application.
+	 * Create the panel.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterStudentForm frame = new RegisterStudentForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public RegisterStudentForm() {
-		setTitle("Register Student Form");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 325);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	public StudentRegistrationPanel() {
+		setLayout(null);
 		
 		JLabel Heading = new JLabel("Student Registration Form");
+		Heading.setBounds(152, 37, 161, 17);
 		Heading.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		Heading.setBounds(152, 11, 184, 22);
-		contentPane.add(Heading);
+		add(Heading);
 		
 		JLabel FirstName = new JLabel("First Name ");
+		FirstName.setBounds(77, 107, 70, 20);
 		FirstName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		FirstName.setBounds(56, 81, 75, 22);
-		contentPane.add(FirstName);
-		
-		JLabel LastName = new JLabel("Last Name ");
-		LastName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		LastName.setBounds(260, 81, 75, 22);
-		contentPane.add(LastName);
-		
-		JLabel RegNumber = new JLabel("Reg No.");
-		RegNumber.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		RegNumber.setBounds(56, 122, 75, 22);
-		contentPane.add(RegNumber);
-		
-		JLabel Age = new JLabel("Age");
-		Age.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Age.setBounds(56, 164, 75, 22);
-		contentPane.add(Age);
-		
-		
-		JLabel Gender = new JLabel("Gender");
-		Gender.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Gender.setBounds(260, 127, 75, 22);
-		contentPane.add(Gender);
-		
-		JLabel Class = new JLabel("Class");
-		Class.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Class.setBounds(260, 164, 75, 22);
-		contentPane.add(Class);
+		add(FirstName);
 		
 		fName = new JTextField();
-		fName.setBounds(128, 83, 122, 20);
-		contentPane.add(fName);
+		fName.setBounds(159, 107, 86, 20);
+		add(fName);
 		fName.setColumns(10);
 		
+		JLabel LastName = new JLabel("Last Name ");
+		LastName.setBounds(275, 107, 64, 20);
+		LastName.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		add(LastName);
+		
 		lName = new JTextField();
+		lName.setBounds(349, 107, 86, 20);
 		lName.setColumns(10);
-		lName.setBounds(323, 83, 122, 20);
-		contentPane.add(lName);
+		add(lName);
 		
 		regNo = new JTextField();
+		regNo.setBounds(159, 133, 86, 20);
 		regNo.setColumns(10);
-		regNo.setBounds(128, 124, 122, 20);
-		contentPane.add(regNo);
+		add(regNo);
 		
-		age = new JTextField();
-		age.setColumns(10);
-		age.setBounds(128, 166, 122, 20);
-		contentPane.add(age);
+		
+		JLabel RegNumber = new JLabel("Reg No.");
+		RegNumber.setBounds(77, 132, 70, 22);
+		RegNumber.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		add(RegNumber);
 		
 		// select for the gender
 		String[] genderArr = {"Select Gender","Male", "Female"};
 		gender = new JComboBox(genderArr);
-		gender.setBounds(323, 123, 122, 22);
-		contentPane.add(gender);
-		
+		gender.setBounds(342, 133, 93, 20);
+		add(gender);
 		
 		// select for the class
 		String[] classArr = {"Select a class", "P1","P2", "P3", "P4", "P5", "P6", "P7"};
-		selectClass = new JComboBox(classArr);
-		selectClass.setBounds(323, 165, 122, 22);
-		contentPane.add(selectClass);
+		JLabel Gender = new JLabel("Gender");
+		Gender.setBounds(275, 132, 41, 22);
+		Gender.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		add(Gender);
+		
+		age = new JTextField();
+		age.setBounds(159, 159, 86, 20);
+		age.setColumns(10);
+		add(age);
+		
+		JLabel Age = new JLabel("Age");
+		Age.setBounds(77, 159, 70, 20);
+		Age.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		add(Age);
 		
 		JButton submitBtn = new JButton("Submit");
+		submitBtn.setBounds(227, 236, 86, 23);
 		submitBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -171,10 +138,11 @@ public class RegisterStudentForm extends JFrame {
 						
 						
 						int i = sta.executeUpdate();
+						// success message
 						JOptionPane.showMessageDialog(submitBtn, "Student created succesfully");
+						System.out.println(i + "records inserted");
 						connection.close();
 					}catch(Exception exe) {
-						System.out.println("here");
 						exe.printStackTrace();
 					}
 				}
@@ -182,12 +150,20 @@ public class RegisterStudentForm extends JFrame {
 				
 			}
 		});
+		selectClass = new JComboBox(classArr);
+		selectClass.setBounds(345, 159, 90, 20);
+		add(selectClass);
+		
+		JLabel Class = new JLabel("Class");
+		Class.setBounds(275, 159, 30, 20);
+		Class.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		add(Class);
 		submitBtn.setForeground(Color.BLUE);
 		submitBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		submitBtn.setBounds(129, 239, 89, 23);
-		contentPane.add(submitBtn);
+		add(submitBtn);
 		
 		JButton cancelBtn = new JButton("Cancel");
+		cancelBtn.setBounds(349, 236, 86, 23);
 		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// clear input fields
@@ -201,9 +177,8 @@ public class RegisterStudentForm extends JFrame {
 		});
 		cancelBtn.setForeground(Color.RED);
 		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		cancelBtn.setBounds(261, 240, 89, 23);
-		contentPane.add(cancelBtn);
-		
+		add(cancelBtn);
 		
 	}
+
 }

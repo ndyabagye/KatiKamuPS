@@ -1,9 +1,6 @@
 package winBuilder;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.Connection;
@@ -12,21 +9,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.JScrollPane;
+
 import java.awt.event.*;
 
 public class StudentPanel extends JPanel {
 	private JTable table;
-
+	
 	/**
 	 * Create the panel.
 	 */
@@ -35,7 +29,7 @@ public class StudentPanel extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
-		String[] columns = new String[] {"id","Reg No.", "Name", "Age", "Class"};
+		String[] columns = new String[] {"id","Reg No.", "Name", "Age", "Class", "Gender"};
         String[][] data = {};
         ArrayList<String[]> studentList = new ArrayList<String[]>(Arrays.asList(data));  
         
@@ -54,10 +48,11 @@ public class StudentPanel extends JPanel {
     	    while (studentResult.next()){
     	        int id = studentResult.getInt("id");
     	        String regNum = studentResult.getString("regNum");
-    	        String stuName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
-    	        String stuAge = studentResult.getString("stuAge");
-    	        String stuClass = studentResult.getString("stuClass");
-    	        String [] student = {String.valueOf(id), regNum,stuName, stuAge, stuClass };
+    	        String studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
+    	        String studAge = studentResult.getString("stuAge");
+    	        String studClass = studentResult.getString("stuClass");
+    	        String studGender = studentResult.getString("stuGender");
+    	        String [] student = {String.valueOf(id), regNum,studName, studAge, studClass, studGender};
     	        studentList.add(student);
     	    }
     	    
@@ -76,31 +71,65 @@ public class StudentPanel extends JPanel {
 		));
 		scrollPane.setViewportView(table);
 		
-		TableRowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
-        JTextField textField = new JTextField();
-
-        //set the width of the 3rd column to 200 pixels
-        TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(2).setPreferredWidth(200);
-    
-        table.setRowSorter(sort);
-
-        JPanel p = new JPanel(new BorderLayout());
-        p.add(new JLabel("Search students:"), BorderLayout.WEST);
-        p.add(textField, BorderLayout.CENTER);
-        
-        table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
             	JTable target = (JTable)me.getSource();
                 int row = target.getSelectedRow(); // select a row
-                //JOptionPane.showMessageDialog(null, table.getValueAt(row, 0));
+                int column = target.getSelectedColumn();
+                int studId = Integer.valueOf(target.getValueAt(row, 0).toString());
+                
+                EditStudentForm editStudent = new EditStudentForm(studId);
+				editStudent.setVisible(true);
+				editStudent.addWindowListener(new WindowAdapter(){
+					@Override
+					public void windowClosing(WindowEvent e){
+						try {
+							Connection connection = new DbConnection().getDbConnection();
+				    		Statement studentStatement = connection.createStatement();
+				    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + studId;
+				    		
+				    		ResultSet studentResult = studentStatement.executeQuery(getStudentQuery);
+				    	     
+				    		while (studentResult.next()) {
+				    			int uptstudId = studentResult.getInt("id");
+				      	        String upregNum = studentResult.getString("regNum");
+				      	        String upName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
+				      	        
+				      	        String upstudAge = studentResult.getString("stuAge");
+				      	        String upstudClass = studentResult.getString("stuClass");
+				      	        String upstudGender = studentResult.getString("stuGender");
+				      	        
+				      	        System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
+				      	        target.setValueAt((Object)upregNum, row, 1);
+				      	        target.setValueAt((Object)upName, row, 2);
+				      	        target.setValueAt((Object)upstudAge, row, 3);
+				      	        target.setValueAt((Object)upstudClass, row, 4);
+				      	        target.setValueAt((Object)upstudGender, row, 5);
+				    		}
+				    		connection.close();
+      					}catch(Exception exe) {
+      						exe.printStackTrace();
+      					}
+
+					}
+				});
+				    
+				//JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
             }
          });
-        
+		        
+        //Sort table section
+        TableRowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
+        JTextField textField = new JTextField();
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(2).setPreferredWidth(200);
+        table.setRowSorter(sort);
+        JPanel p = new JPanel(new BorderLayout());
+        p.add(new JLabel("Search students:"), BorderLayout.WEST);
+        p.add(textField, BorderLayout.CENTER);
         setLayout(new BorderLayout());
         add(p, BorderLayout.SOUTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
-
         textField.getDocument().addDocumentListener(new DocumentListener(){
             @Override
             public void insertUpdate(DocumentEvent e) {
