@@ -191,6 +191,7 @@ public class RegisterStudentForm extends JFrame {
 						System.out.println(i + "records inserted");
 						connection.close();
 					}catch(Exception exe) {
+						System.out.println("here");
 						exe.printStackTrace();
 					}
 				}
