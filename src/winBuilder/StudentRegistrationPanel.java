@@ -138,6 +138,8 @@ public class StudentRegistrationPanel extends JPanel {
 						
 						
 						int i = sta.executeUpdate();
+						// success message
+						JOptionPane.showMessageDialog(submitBtn, "Student created succesfully");
 						System.out.println(i + "records inserted");
 						connection.close();
 					}catch(Exception exe) {

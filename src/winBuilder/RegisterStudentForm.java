@@ -171,7 +171,7 @@ public class RegisterStudentForm extends JFrame {
 						
 						
 						int i = sta.executeUpdate();
-						System.out.println(i + "records inserted");
+						JOptionPane.showMessageDialog(submitBtn, "Student created succesfully");
 						connection.close();
 					}catch(Exception exe) {
 						System.out.println("here");
