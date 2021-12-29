@@ -129,9 +129,40 @@ public class MarksPanel extends JPanel {
         table.setRowSorter(sort);
         
         JButton mathsButton = new JButton("Math Marks"); 
+        mathsButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("Maths");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+        
         JButton sciButton = new JButton("Science Marks"); 
-        JButton sstButton = new JButton("Sst Marks"); 
+        sciButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("Science");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+        
+        JButton sstButton = new JButton("Sst Marks");
+        sstButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("SST");
+        		subjectMarks.setVisible(true);
+        	}
+        });
+        
         JButton engButton = new JButton("English Marks"); 
+        engButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		SubjectMarks subjectMarks = new SubjectMarks("English");
+        		subjectMarks.setVisible(true);
+        	}
+        });
          
         JPanel y = new JPanel();
         y.add(mathsButton);
