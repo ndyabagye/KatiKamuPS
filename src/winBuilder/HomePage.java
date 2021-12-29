@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
 
 public class HomePage extends JFrame {
 
@@ -61,10 +62,18 @@ public class HomePage extends JFrame {
 		menuBar.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Marks");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MarksPanel mpanel = new MarksPanel();
+				setContentPane(mpanel);
+				getContentPane().revalidate();
+				System.out.print("Here");
+			}
+		});
 		menuBar.add(btnNewButton_2);
 		
 		JButton btnNewButton = new JButton("Registration");
 		menuBar.add(btnNewButton);
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 	}
 }
