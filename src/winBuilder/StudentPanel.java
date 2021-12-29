@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 public class StudentPanel extends JPanel {

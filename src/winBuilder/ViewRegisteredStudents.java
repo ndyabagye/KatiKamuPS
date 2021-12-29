@@ -1,9 +1,13 @@
 package winBuilder;
 
+<<<<<<< HEAD
 import java.awt.BorderLayout;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+=======
+import java.awt.EventQueue;
+>>>>>>> 58b0a0eb568434e39a84f8055b7c66297189ca4d
 
 import java.sql.*;
 import java.util.ArrayList;

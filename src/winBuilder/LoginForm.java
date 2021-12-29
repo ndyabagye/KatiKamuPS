@@ -1,6 +1,5 @@
 package winBuilder;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,9 +17,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
 
 public class LoginForm extends JFrame {
 
