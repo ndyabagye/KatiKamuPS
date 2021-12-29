@@ -120,7 +120,7 @@ public class LoginForm extends JFrame {
 						// close login form 
 						dispose();
 						// see student details
-						ViewRegisteredStudents view = new ViewRegisteredStudents();
+						HomePage view = new HomePage();
 						view.setVisible(true);
 					}else{
 						// email or password is false
