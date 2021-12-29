@@ -14,6 +14,7 @@ public class DbConnection{
 			String password = "";
 			Connection con =  DriverManager.getConnection(connect, username,password);
 			return con;
+			
 		}catch(SQLException e) {
 			throw e;	
 		}
