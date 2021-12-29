@@ -127,11 +127,29 @@ public class MarksPanel extends JPanel {
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(2).setPreferredWidth(200);
         table.setRowSorter(sort);
+        
+        JButton mathsButton = new JButton("Math Marks"); 
+        JButton sciButton = new JButton("Science Marks"); 
+        JButton sstButton = new JButton("Sst Marks"); 
+        JButton engButton = new JButton("English Marks"); 
+         
+        JPanel y = new JPanel();
+        y.add(mathsButton);
+        y.add(sciButton);
+        y.add(sstButton);
+        y.add(engButton);
+        
+        
+        
         JPanel p = new JPanel(new BorderLayout());
-        p.add(new JLabel("Search students:"), BorderLayout.WEST);
+        p.add(new JLabel("Search marks table:"), BorderLayout.WEST);
         p.add(textField, BorderLayout.CENTER);
+        p.add(y, BorderLayout.SOUTH);
+        
         setLayout(new BorderLayout());
         add(p, BorderLayout.SOUTH);
+        
+        
         add(new JScrollPane(table), BorderLayout.CENTER);
         textField.getDocument().addDocumentListener(new DocumentListener(){
             @Override
