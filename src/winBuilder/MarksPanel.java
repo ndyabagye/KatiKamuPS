@@ -32,7 +32,12 @@ import javax.swing.table.TableRowSorter;
 
 public class MarksPanel extends JPanel {
 	private JTable table;
-
+	 
+	 
+	// data that will dynamically change		
+	String[][] data = {};
+	ArrayList<String[]> studentList = new ArrayList<String[]>(Arrays.asList(data));
+	
 	/**
 	 * Create the panel.
 	 */
@@ -78,6 +83,8 @@ public class MarksPanel extends JPanel {
     	}
 		
 		table = new JTable();
+		
+		System.out.println(Arrays.deepToString(data));
 		table.setModel(new DefaultTableModel(
 			data,
 			columns
@@ -212,4 +219,5 @@ public class MarksPanel extends JPanel {
             public void changedUpdate(DocumentEvent e) {}
         });
 	}
+	
 }

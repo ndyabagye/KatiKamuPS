@@ -20,30 +20,30 @@ import java.awt.event.*;
 
 public class StudentPanel extends JPanel {
 	private JTable table;
-	
+
 	/**
 	 * Create the panel.
 	 */
 	public StudentPanel() {
 		setLayout(new GridLayout(0, 1, 0, 0));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
 		String[] columns = new String[] {"id","Reg No.", "Name", "Age", "Class", "Gender"};
         String[][] data = {};
-        ArrayList<String[]> studentList = new ArrayList<String[]>(Arrays.asList(data));  
-        
+        ArrayList<String[]> studentList = new ArrayList<String[]>(Arrays.asList(data));
+
         try {
     		Connection connection = new DbConnection().getDbConnection();
     		String query = "SELECT * FROM students";
 
     	    // create the java statement
     	    Statement studentStatement = connection.createStatement();
-    	      
+
     	    // execute the query, and get a java
     	    ResultSet studentResult = studentStatement.executeQuery(query);
-    	 
-    		
+
+
     	    // iterate through the java
     	    while (studentResult.next()){
     	        int id = studentResult.getInt("id");
@@ -55,29 +55,29 @@ public class StudentPanel extends JPanel {
     	        String [] student = {String.valueOf(id), regNum,studName, studAge, studClass, studGender};
     	        studentList.add(student);
     	    }
-    	    
+
     	    data = studentList.toArray(data);
-    	
+
     	    studentStatement.close();
     	}catch(Exception exe) {
     		System.out.println("here");
     		exe.printStackTrace();
     	}
-		
+
         DefaultTableModel model = new DefaultTableModel(data, columns);
-        
+
 		table = new JTable();
 		table.setModel(model);
-		
+
 		scrollPane.setViewportView(table);
-		
+
 		table.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
             	JTable target = (JTable)me.getSource();
                 int row = target.getSelectedRow(); // select a row
                 int column = target.getSelectedColumn();
                 int studId = Integer.valueOf(target.getValueAt(row, 0).toString());
-                
+
                 EditStudentForm editStudent = new EditStudentForm(studId);
 				editStudent.setVisible(true);
 				editStudent.addWindowListener(new WindowAdapter(){
@@ -87,18 +87,18 @@ public class StudentPanel extends JPanel {
 							Connection connection = new DbConnection().getDbConnection();
 				    		Statement studentStatement = connection.createStatement();
 				    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + studId;
-				    		
+
 				    		ResultSet studentResult = studentStatement.executeQuery(getStudentQuery);
-				    	     
+
 				    		while (studentResult.next()) {
 				    			int uptstudId = studentResult.getInt("id");
 				      	        String upregNum = studentResult.getString("regNum");
 				      	        String upName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
-				      	        
+
 				      	        String upstudAge = studentResult.getString("stuAge");
 				      	        String upstudClass = studentResult.getString("stuClass");
 				      	        String upstudGender = studentResult.getString("stuGender");
-				      	        
+
 				      	        System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
 				      	        target.setValueAt((Object)upregNum, row, 1);
 				      	        target.setValueAt((Object)upName, row, 2);
@@ -113,37 +113,37 @@ public class StudentPanel extends JPanel {
 
 					}
 				});
-				    
+
 				//JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
             }
          });
-		
-		JButton regButton = new JButton("Register Students"); 
+
+		JButton regButton = new JButton("Register Students");
         regButton.addActionListener(new ActionListener() {
         	@Override
 			public void actionPerformed(ActionEvent e) {
-        		
+
         		RegisterStudentForm student = new RegisterStudentForm();
         		student.setVisible(true);
-        		
+
         		student.addWindowListener(new WindowAdapter(){
 					@Override
 					public void windowClosing(WindowEvent w){
-						
+
 				        DefaultTableModel model = (DefaultTableModel)table.getModel();
 				        model.setRowCount(0);
-				        
+
 				        try {
 				    		Connection connection = new DbConnection().getDbConnection();
 				    		String query = "SELECT * FROM students";
 
 				    	    // create the java statement
 				    	    Statement studentStatement = connection.createStatement();
-				    	      
+
 				    	    // execute the query, and get a java
 				    	    ResultSet studentResult = studentStatement.executeQuery(query);
-				    	 
-				    		
+
+
 				    	    // iterate through the java
 				    	    while (studentResult.next()){
 				    	        int id = studentResult.getInt("id");
@@ -153,29 +153,29 @@ public class StudentPanel extends JPanel {
 				    	        String studClass = studentResult.getString("stuClass");
 				    	        String studGender = studentResult.getString("stuGender");
 				    	        String [] student = {String.valueOf(id), regNum,studName, studAge, studClass, studGender};
-				    	        
+
 				    	        model.addRow(student);
-					    	    
+
 				    	    }
-				    	    
-				    	    
+
+
 				    	    studentStatement.close();
 				    	}catch(Exception exe) {
 				    		System.out.println("here");
 				    		exe.printStackTrace();
 				    	}
-				        
-				   
+
+
 					}
 				});
 
         	}
         });
-         
+
         JPanel y = new JPanel();
         y.add(regButton);
-        
-		        
+
+
         //Sort table section
         TableRowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
         JTextField textField = new JTextField();
@@ -186,8 +186,8 @@ public class StudentPanel extends JPanel {
         p.add(new JLabel("Search students:"), BorderLayout.WEST);
         p.add(textField, BorderLayout.CENTER);
         p.add(y, BorderLayout.SOUTH);
-        
-        
+
+
         setLayout(new BorderLayout());
         add(p, BorderLayout.SOUTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
