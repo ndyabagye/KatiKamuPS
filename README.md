@@ -4,5 +4,5 @@
 2. The program launches from LoginForm.java
 3. Launching the program for the first time creates the database.
 4. The default email and password are
-   email: admin@gmail.com
+   email: admin@gmail.com and 
    password: root
