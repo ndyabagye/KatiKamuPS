@@ -35,6 +35,7 @@ public class EditMarksForm extends JFrame {
     private String studSci; 
     private String studSST; 
     private String studEnglish;
+    private boolean okay;
 	
 	public EditMarksForm(int id) {
 		try {
@@ -141,43 +142,65 @@ public class EditMarksForm extends JFrame {
 		  				String upscience = science.getText().toString();
 		  				String upsst = sst.getText().toString();
 		  				String upenglish = english.getText().toString();
-
-	  					try {
-	  						Connection connection = new DbConnection().getDbConnection();
-	  			    		Statement studentStatement = connection.createStatement();
-	  			    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + id;
-
-	  						String updateStudents = "UPDATE students SET "
-	  								+ "Maths = '"+ upmaths 	+ "', "
-	  								+ "Science = '"+ upscience  + "', "
-	  								+ "SST = '"+ upsst    + "', "
-	  								+ "English = '"+ upenglish
-	  								+ "' WHERE ID = "+ id ;
-
-	  						studentStatement.executeUpdate(updateStudents);
-
-		      	    		ResultSet updateResult = studentStatement.executeQuery(getStudentQuery);
-
-		      	    		while (updateResult.next()) {
-		      	    			
-		      	    			studMath = upmaths;
-		      	    			studSci = upscience;
-		      	    			studSST = upsst;
-		      	    			studEnglish = upenglish;
-		      	    					
-		      	    			maths.setText(upmaths);
-		          				science.setText(upscience);
-		          				sst.setText(upsst);
-		          				english.setText(upenglish);
-
-		          				JOptionPane.showMessageDialog(updateBtn, "Marks updated succesfully");
-		      	    		}
-	      			        connection.close();
-	  					}catch(Exception exe) {
+		  				okay = true;
+		  				try {
+		  					
+			  				if(Integer.valueOf(upmaths) < 0 
+			  						|| Integer.valueOf(upscience) < 0 
+			  						|| Integer.valueOf(upsst) < 0 
+			  						|| Integer.valueOf(upenglish) < 0
+			  						|| Integer.valueOf(upmaths) > 100
+			  						|| Integer.valueOf(upscience) > 100
+			  						|| Integer.valueOf(upsst) > 100 
+			  						|| Integer.valueOf(upenglish) > 100
+			  						
+			  						) {
+			  					okay = false;
+								JOptionPane.showMessageDialog(updateBtn, "Marks must be between 0 and 100");
+								return;
+							}
+	
+		  				
+		  				
+			  				if(okay == true) {
+		  						Connection connection = new DbConnection().getDbConnection();
+		  			    		Statement studentStatement = connection.createStatement();
+		  			    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + id;
+	
+		  						String updateStudents = "UPDATE students SET "
+		  								+ "Maths = '"+ upmaths 	+ "', "
+		  								+ "Science = '"+ upscience  + "', "
+		  								+ "SST = '"+ upsst    + "', "
+		  								+ "English = '"+ upenglish
+		  								+ "' WHERE ID = "+ id ;
+	
+		  						studentStatement.executeUpdate(updateStudents);
+	
+			      	    		ResultSet updateResult = studentStatement.executeQuery(getStudentQuery);
+	
+			      	    		while (updateResult.next()) {
+			      	    			
+			      	    			studMath = upmaths;
+			      	    			studSci = upscience;
+			      	    			studSST = upsst;
+			      	    			studEnglish = upenglish;
+			      	    					
+			      	    			maths.setText(upmaths);
+			          				science.setText(upscience);
+			          				sst.setText(upsst);
+			          				english.setText(upenglish);
+	
+			          				JOptionPane.showMessageDialog(updateBtn, "Marks updated succesfully");
+			      	    		}
+		      			        connection.close();
+			  				}
+		  				}catch (NumberFormatException n) {
+		  					JOptionPane.showMessageDialog(updateBtn, "Marks must be numbers");
+		  				}
+		  				catch(Exception exe) {
 	  						exe.printStackTrace();
 	  					}
-
-		  			}
+  				}
 		  		});
 		  		updateBtn.setForeground(Color.BLUE);
 		  		updateBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
