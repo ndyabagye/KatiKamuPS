@@ -2,8 +2,10 @@ package winBuilder;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
@@ -51,6 +53,7 @@ public class StudentHomePage extends JFrame {
 		});
 		menuBar.add(btnNewButton);
 		
+		
 		JButton btnNewButton_1 = new JButton("Results");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,6 +67,12 @@ public class StudentHomePage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel);
+		
+		JLabel lblNewLabel = new JLabel("Welcome, Student");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(lblNewLabel);
 	}
-
 }
