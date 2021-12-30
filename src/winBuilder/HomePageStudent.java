@@ -1,25 +1,13 @@
 package winBuilder;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JList;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 
 public class HomePageStudent extends JFrame {
 
@@ -46,21 +34,21 @@ public class HomePageStudent extends JFrame {
 		setTitle("Student Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 651, 513);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JButton btnNewButton_1 = new JButton("Timetable");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentPanel spanel = new StudentPanel();	
+				StudentPanel spanel = new StudentPanel();
 				setContentPane(spanel);
 				getContentPane().revalidate();
 			}
 		});
-		
+
 		menuBar.add(btnNewButton_1);
-		
+
 		JButton btnNewButton_2 = new JButton("Results");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
