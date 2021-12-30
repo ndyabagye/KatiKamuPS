@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -36,6 +37,8 @@ public class HomePage extends JFrame {
 		});
 		
 		menuBar.add(btnNewButton_1);
+		
+		
 		
 		JButton btnNewButton_2 = new JButton("Marks");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -68,6 +71,20 @@ public class HomePage extends JFrame {
 		});
 		menuBar.add(btnNewButton_3);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		menuBar.add(Box.createHorizontalGlue());
+		
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				LoginForm login = new LoginForm();
+				login.setVisible(true);
+			}
+		});
+		menuBar.add(logoutButton);
+		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
