@@ -60,7 +60,6 @@ public class StudentPanel extends JPanel {
 
     	    studentStatement.close();
     	}catch(Exception exe) {
-    		System.out.println("here");
     		exe.printStackTrace();
     	}
 
@@ -99,7 +98,7 @@ public class StudentPanel extends JPanel {
 				      	        String upstudClass = studentResult.getString("stuClass");
 				      	        String upstudGender = studentResult.getString("stuGender");
 
-				      	        System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
+				      	        // System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
 				      	        target.setValueAt((Object)upregNum, row, 1);
 				      	        target.setValueAt((Object)upName, row, 2);
 				      	        target.setValueAt((Object)upstudAge, row, 3);
@@ -161,7 +160,6 @@ public class StudentPanel extends JPanel {
 
 				    	    studentStatement.close();
 				    	}catch(Exception exe) {
-				    		System.out.println("here");
 				    		exe.printStackTrace();
 				    	}
 

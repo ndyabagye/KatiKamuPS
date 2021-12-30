@@ -201,7 +201,6 @@ public class EditMarksForm extends JFrame {
     		}
     	    studentStatement.close();
     	}catch(Exception exe) {
-    		System.out.println("here");
     		exe.printStackTrace();
     	}
 

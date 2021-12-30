@@ -173,7 +173,6 @@ public class EditTeacherForm extends JFrame {
 
     		teacherStatement.close();
     	}catch(Exception exe) {
-    		System.out.println("here");
     		exe.printStackTrace();
     	}
 	}

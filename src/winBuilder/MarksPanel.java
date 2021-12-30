@@ -78,13 +78,11 @@ public class MarksPanel extends JPanel {
 
     	    studentStatement.close();
     	}catch(Exception exe) {
-    		System.out.println("here");
     		exe.printStackTrace();
     	}
 
 		table = new JTable();
 
-		System.out.println(Arrays.deepToString(data));
 		table.setModel(new DefaultTableModel(
 			data,
 			columns
@@ -117,7 +115,7 @@ public class MarksPanel extends JPanel {
 				    	        String studSST = String.valueOf(studentResult.getInt("SST"));
 				    	        String studEnglish = String.valueOf(studentResult.getInt("English"));
 
-				      	        System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
+				      	        // System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
 				      	        target.setValueAt((Object)studMath, row, 3);
 				      	        target.setValueAt((Object)studSci, row, 4);
 				      	        target.setValueAt((Object)studSST, row, 5);
