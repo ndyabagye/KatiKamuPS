@@ -195,7 +195,7 @@ public class EditMarksForm extends JFrame {
 		      			        connection.close();
 			  				}
 		  				}catch (NumberFormatException n) {
-		  					JOptionPane.showMessageDialog(updateBtn, "Marks must be numbers");
+		  					JOptionPane.showMessageDialog(updateBtn, "Marks must be numbers ");
 		  				}
 		  				catch(Exception exe) {
 	  						exe.printStackTrace();
