@@ -8,6 +8,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class HomePage extends JFrame {
 
@@ -80,5 +84,12 @@ public class HomePage extends JFrame {
 		});
 		menuBar.add(btnNewButton_3);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel);
+		
+		JLabel lblNewLabel = new JLabel("Welcome to Katikamu Primary School Application");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(lblNewLabel);
 	}
 }
