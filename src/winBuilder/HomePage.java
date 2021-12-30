@@ -1,5 +1,6 @@
 package winBuilder;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class HomePage extends JFrame {
 
@@ -38,6 +40,7 @@ public class HomePage extends JFrame {
 		setTitle("Teacher Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 651, 513);
+		setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -89,7 +92,9 @@ public class HomePage extends JFrame {
 		getContentPane().add(panel);
 		
 		JLabel lblNewLabel = new JLabel("Welcome to Katikamu Primary School Application");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setBounds(209, 132, 160, 27);
 		panel.add(lblNewLabel);
 	}
 }

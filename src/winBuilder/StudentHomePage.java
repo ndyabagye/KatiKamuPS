@@ -51,7 +51,6 @@ public class StudentHomePage extends JFrame {
 		});
 		menuBar.add(btnNewButton);
 		
-		
 		JButton btnNewButton_1 = new JButton("Results");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
