@@ -10,8 +10,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 public class StudentHomePage extends JFrame {
 
@@ -24,7 +22,7 @@ public class StudentHomePage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentHomePage frame = new StudentHomePage();
+					StudentHomePage frame = new StudentHomePage(10);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,9 +34,9 @@ public class StudentHomePage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StudentHomePage() {
+	public StudentHomePage(int id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 651, 513);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -46,28 +44,27 @@ public class StudentHomePage extends JFrame {
 		JButton btnNewButton = new JButton("Timetable");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TimetablePanel tpanel = new TimetablePanel();
-				setContentPane(tpanel);
+				StudentTimetable mpanel = new StudentTimetable(id);
+				setContentPane(mpanel);
 				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(btnNewButton);
 		
+		
 		JButton btnNewButton_1 = new JButton("Results");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				StudentMarkpanel mpanel = new StudentMarkpanel(id);
+				setContentPane(mpanel);
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(btnNewButton_1);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0};
-		gbl_contentPane.rowHeights = new int[]{0};
-		gbl_contentPane.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
 	}
 
 }
