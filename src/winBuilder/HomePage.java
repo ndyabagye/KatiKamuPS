@@ -56,7 +56,6 @@ public class HomePage extends JFrame {
 				StudentPanel spanel = new StudentPanel();	
 				setContentPane(spanel);
 				getContentPane().revalidate();
-				System.out.println("here now");
 			}
 		});
 		
@@ -75,10 +74,21 @@ public class HomePage extends JFrame {
 		JButton btnNewButton = new JButton("Teachers");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				TeacherPanel spanel = new TeacherPanel();	
+				setContentPane(spanel);
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(btnNewButton);
+		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton btnNewButton_3 = new JButton("Timetable");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		});
+		menuBar.add(btnNewButton_3);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 	}
 }

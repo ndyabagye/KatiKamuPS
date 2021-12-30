@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -235,7 +236,11 @@ public class EditStudentForm extends JFrame {
 								JOptionPane.showMessageDialog(updateBtn, "Student updated succesfully");
 		      	    		}
 	      			        connection.close();
-      					}catch(Exception exe) {
+      					}catch (SQLIntegrityConstraintViolationException x) {
+    						// success message
+    						JOptionPane.showMessageDialog(updateBtn, "Student with regNum already exists");
+    					}
+      					catch(Exception exe) {
       						exe.printStackTrace();
       					}
       				}
