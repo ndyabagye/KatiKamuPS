@@ -37,22 +37,6 @@ public class RegisterTimetableForm extends JFrame {
 	private String strFri;
 
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterTimetableForm frame = new RegisterTimetableForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public RegisterTimetableForm() {
 		setTitle("Add Timetable");
   		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
