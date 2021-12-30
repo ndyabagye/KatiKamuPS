@@ -71,15 +71,26 @@ public class HomePage extends JFrame {
 		});
 		menuBar.add(btnNewButton_2);
 		
-		JButton btnNewButton = new JButton("Registration");
+		JButton btnNewButton = new JButton("Teachers");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentRegistrationPanel srpanel = new StudentRegistrationPanel();
-				setContentPane(srpanel);
+				TeacherPanel spanel = new TeacherPanel();	
+				setContentPane(spanel);
 				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(btnNewButton);
+		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton btnNewButton_3 = new JButton("Timetable");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TimeTablePanel spanel = new TimeTablePanel();	
+				setContentPane(spanel);
+				getContentPane().revalidate();
+			}
+		});
+		menuBar.add(btnNewButton_3);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 	}
 }

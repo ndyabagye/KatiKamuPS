@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
 
 import javax.swing.JTextField;
@@ -52,7 +53,7 @@ public class RegisterTeacherForm extends JFrame {
 	 */
 	public RegisterTeacherForm() {
 		setTitle("Register Teacher Form");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 340);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -118,10 +119,6 @@ public class RegisterTeacherForm extends JFrame {
 				String firstName = fName.getText().toString();
 				String lastName = lName.getText().toString();
 				String email = emailField.getText().toString();
-				System.out.println(Arrays.equals(passwordField.getPassword(),verifyPasswordField.getPassword()));
-				System.out.println(verifyPasswordField.getPassword());
-
-				
 				
 				// passwords do not match
 				if(Arrays.equals(passwordField.getPassword(),verifyPasswordField.getPassword())) {
@@ -149,18 +146,23 @@ public class RegisterTeacherForm extends JFrame {
 						int i = sta.executeUpdate();
 						// if successful
 						if( i == 1) {
-							JOptionPane.showMessageDialog(Submit, "Account created successfully");
+							JOptionPane.showMessageDialog(Submit, "Teacher created successfully");
+							fName.setText("");
+							lName.setText("");
+							emailField.setText("");
+							passwordField.setText("");
+							verifyPasswordField.setText("");
 						}else {
-							JOptionPane.showMessageDialog(Submit, "Account not created!");
+							JOptionPane.showMessageDialog(Submit, "Teacher not created!");
 							return;
 						}
+						
 						connection.close();
-						
-						dispose();
-						
-						LoginForm login = new LoginForm();
-						login.setVisible(true);
-					}catch(Exception exception) {
+					}catch (SQLIntegrityConstraintViolationException x) {
+						// success message
+						JOptionPane.showMessageDialog(Submit, "Teacher with email already exists");
+					}
+					catch(Exception exception) {
 						
 					}
 				}
@@ -169,7 +171,18 @@ public class RegisterTeacherForm extends JFrame {
 		});
 		contentPane.add(Submit);
 		
-		JButton Cancel = new JButton("Cancel");
+		JButton Cancel = new JButton("Reset");
+		Cancel.addActionListener(new ActionListener() {
+  			public void actionPerformed(ActionEvent e) {
+  			// clear input fields
+				fName.setText("");
+				lName.setText("");
+				emailField.setText("");
+				passwordField.setText("");
+				verifyPasswordField.setText("");
+			}
+  		});
+  		
 		Cancel.setForeground(Color.RED);
 		Cancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		Cancel.setBounds(212, 267, 89, 23);

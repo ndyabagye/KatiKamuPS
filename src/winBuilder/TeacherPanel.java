@@ -1,14 +1,29 @@
 package winBuilder;
 
-import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -16,49 +31,43 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import java.awt.event.*;
+public class TeacherPanel extends JPanel {
 
-public class StudentPanel extends JPanel {
 	private JTable table;
 	
-	/**
-	 * Create the panel.
-	 */
-	public StudentPanel() {
+	public TeacherPanel() {
 		setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
-		String[] columns = new String[] {"id","Reg No.", "Name", "Age", "Class", "Gender"};
+		String[] columns = new String[] {"id","First Name", "Last Name", "Email"};
         String[][] data = {};
-        ArrayList<String[]> studentList = new ArrayList<String[]>(Arrays.asList(data));  
+        ArrayList<String[]> teacherList = new ArrayList<String[]>(Arrays.asList(data));  
         
         try {
     		Connection connection = new DbConnection().getDbConnection();
-    		String query = "SELECT * FROM students";
+    		String query = "SELECT * FROM teachers";
 
     	    // create the java statement
-    	    Statement studentStatement = connection.createStatement();
+    	    Statement teacherStatement = connection.createStatement();
     	      
     	    // execute the query, and get a java
-    	    ResultSet studentResult = studentStatement.executeQuery(query);
+    	    ResultSet teacherResult = teacherStatement.executeQuery(query);
     	 
     		
     	    // iterate through the java
-    	    while (studentResult.next()){
-    	        int id = studentResult.getInt("id");
-    	        String regNum = studentResult.getString("regNum");
-    	        String studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
-    	        String studAge = studentResult.getString("stuAge");
-    	        String studClass = studentResult.getString("stuClass");
-    	        String studGender = studentResult.getString("stuGender");
-    	        String [] student = {String.valueOf(id), regNum,studName, studAge, studClass, studGender};
-    	        studentList.add(student);
+    	    while (teacherResult.next()){
+    	        int id = teacherResult.getInt("id");
+    	        String firstName = teacherResult.getString("firstName");
+    	        String lastName = teacherResult.getString("lastName");
+    	        String email = teacherResult.getString("email");
+    	        String [] teacher = {String.valueOf(id), firstName, lastName, email};
+    	        teacherList.add(teacher);
     	    }
     	    
-    	    data = studentList.toArray(data);
+    	    data = teacherList.toArray(data);
     	
-    	    studentStatement.close();
+    	    teacherStatement.close();
     	}catch(Exception exe) {
     		System.out.println("here");
     		exe.printStackTrace();
@@ -76,36 +85,30 @@ public class StudentPanel extends JPanel {
             	JTable target = (JTable)me.getSource();
                 int row = target.getSelectedRow(); // select a row
                 int column = target.getSelectedColumn();
-                int studId = Integer.valueOf(target.getValueAt(row, 0).toString());
+                int teachId = Integer.valueOf(target.getValueAt(row, 0).toString());
                 
-                EditStudentForm editStudent = new EditStudentForm(studId);
-				editStudent.setVisible(true);
-				editStudent.addWindowListener(new WindowAdapter(){
+                EditTeacherForm editTeacher = new EditTeacherForm(teachId);
+				editTeacher.setVisible(true);
+				editTeacher.addWindowListener(new WindowAdapter(){
 					@Override
 					public void windowClosing(WindowEvent e){
 						try {
 							Connection connection = new DbConnection().getDbConnection();
-				    		Statement studentStatement = connection.createStatement();
-				    	    String getStudentQuery = "SELECT * FROM students WHERE id = " + studId;
+				    		Statement teacherStatement = connection.createStatement();
+				    	    String getTeacherQuery = "SELECT * FROM teachers WHERE id = " + teachId;
 				    		
-				    		ResultSet studentResult = studentStatement.executeQuery(getStudentQuery);
+				    		ResultSet teacherResult = teacherStatement.executeQuery(getTeacherQuery);
 				    	     
-				    		while (studentResult.next()) {
-				    			int uptstudId = studentResult.getInt("id");
-				      	        String upregNum = studentResult.getString("regNum");
-				      	        String upName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
-				      	        
-				      	        String upstudAge = studentResult.getString("stuAge");
-				      	        String upstudClass = studentResult.getString("stuClass");
-				      	        String upstudGender = studentResult.getString("stuGender");
-				      	        
-				      	        System.out.println(Integer.valueOf(target.getValueAt(row, 0).toString()));
-				      	        target.setValueAt((Object)upregNum, row, 1);
-				      	        target.setValueAt((Object)upName, row, 2);
-				      	        target.setValueAt((Object)upstudAge, row, 3);
-				      	        target.setValueAt((Object)upstudClass, row, 4);
-				      	        target.setValueAt((Object)upstudGender, row, 5);
-				    		}
+				    		while (teacherResult.next()) {
+				    			int uptteachId = teacherResult.getInt("id");
+								String firstName = teacherResult.getString("firstName");
+								String lastName = teacherResult.getString("lastName");
+								String email = teacherResult.getString("email");
+    	        
+				      	        target.setValueAt((Object)firstName, row, 1);
+				      	        target.setValueAt((Object)lastName, row, 2);
+				      	        target.setValueAt((Object)email, row, 3);
+				      	    }
 				    		connection.close();
       					}catch(Exception exe) {
       						exe.printStackTrace();
@@ -118,15 +121,15 @@ public class StudentPanel extends JPanel {
             }
          });
 		
-		JButton regButton = new JButton("Register Students"); 
+		JButton regButton = new JButton("Register Teachers"); 
         regButton.addActionListener(new ActionListener() {
         	@Override
 			public void actionPerformed(ActionEvent e) {
         		
-        		RegisterStudentForm student = new RegisterStudentForm();
-        		student.setVisible(true);
+        		RegisterTeacherForm teacher = new RegisterTeacherForm();
+        		teacher.setVisible(true);
         		
-        		student.addWindowListener(new WindowAdapter(){
+        		teacher.addWindowListener(new WindowAdapter(){
 					@Override
 					public void windowClosing(WindowEvent w){
 						
@@ -135,31 +138,28 @@ public class StudentPanel extends JPanel {
 				        
 				        try {
 				    		Connection connection = new DbConnection().getDbConnection();
-				    		String query = "SELECT * FROM students";
+				    		String query = "SELECT * FROM teachers";
 
 				    	    // create the java statement
-				    	    Statement studentStatement = connection.createStatement();
+				    	    Statement teacherStatement = connection.createStatement();
 				    	      
 				    	    // execute the query, and get a java
-				    	    ResultSet studentResult = studentStatement.executeQuery(query);
+				    	    ResultSet teacherResult = teacherStatement.executeQuery(query);
 				    	 
 				    		
 				    	    // iterate through the java
-				    	    while (studentResult.next()){
-				    	        int id = studentResult.getInt("id");
-				    	        String regNum = studentResult.getString("regNum");
-				    	        String studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
-				    	        String studAge = studentResult.getString("stuAge");
-				    	        String studClass = studentResult.getString("stuClass");
-				    	        String studGender = studentResult.getString("stuGender");
-				    	        String [] student = {String.valueOf(id), regNum,studName, studAge, studClass, studGender};
-				    	        
-				    	        model.addRow(student);
-					    	    
+				    	    while (teacherResult.next()){
+				    	        int id = teacherResult.getInt("id");
+								String firstName = teacherResult.getString("firstName");
+								String lastName = teacherResult.getString("lastName");
+								String email = teacherResult.getString("email");
+								String [] teacher = {String.valueOf(id), firstName, lastName, email};
+							
+				    	        model.addRow(teacher);
 				    	    }
 				    	    
 				    	    
-				    	    studentStatement.close();
+				    	    teacherStatement.close();
 				    	}catch(Exception exe) {
 				    		System.out.println("here");
 				    		exe.printStackTrace();
@@ -180,10 +180,10 @@ public class StudentPanel extends JPanel {
         TableRowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
         JTextField textField = new JTextField();
         TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(2).setPreferredWidth(200);
+        columnModel.getColumn(3).setPreferredWidth(200);
         table.setRowSorter(sort);
         JPanel p = new JPanel(new BorderLayout());
-        p.add(new JLabel("Search students:"), BorderLayout.WEST);
+        p.add(new JLabel("Search teachers:"), BorderLayout.WEST);
         p.add(textField, BorderLayout.CENTER);
         p.add(y, BorderLayout.SOUTH);
         
@@ -216,4 +216,5 @@ public class StudentPanel extends JPanel {
         });
 
 	}
+
 }
