@@ -42,10 +42,8 @@ public class LoginForm extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public LoginForm() {
+		DBCreate.createDB();
 		setTitle("KTPS Login Form");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

@@ -112,12 +112,14 @@ public class EditMarksForm extends JFrame {
 	      		regNo.setColumns(10);
 	      		regNo.setBounds(128, 83, 122, 20);
 	      		regNo.setEnabled(false);
+	      		regNo.setDisabledTextColor(Color.BLACK);
 	      		contentPane.add(regNo);
 
 	      		name = new JTextField(studName);
 	      		name.setBounds(323, 83, 122, 20);
 	      		name.setEnabled(false);
 	      		contentPane.add(name);
+	      		name.setDisabledTextColor(Color.BLACK);
 	      		name.setColumns(10);
 
 	      		maths = new JTextField(studMath);
