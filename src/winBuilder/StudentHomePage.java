@@ -72,7 +72,8 @@ public class StudentHomePage extends JFrame {
 		getContentPane().add(panel);
 		
 		JLabel lblNewLabel = new JLabel("Welcome, Student");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setForeground(Color.BLUE);
 		panel.add(lblNewLabel);
 	}
 }

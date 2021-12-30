@@ -94,7 +94,6 @@ public class HomePage extends JFrame {
 		JLabel lblNewLabel = new JLabel("Welcome to Katikamu Primary School Application");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setForeground(Color.BLUE);
-		lblNewLabel.setBounds(209, 132, 160, 27);
 		panel.add(lblNewLabel);
 	}
 }
