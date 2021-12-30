@@ -1,6 +1,6 @@
 # KatiKamuPS
 ### Use instructions 
-1. The database configurations can be setup in DBCreate.java and DBConnection.java 
+1. The database configurations can be setup in DBCreate.java and DBConnection.java (Localhost has to be running on port 3306)
 2. The program launches from LoginForm.java
 3. Launching the program for the first time creates the database.
 4. The default login email and password for a teacher are
