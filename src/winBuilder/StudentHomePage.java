@@ -42,7 +42,12 @@ public class StudentHomePage extends JFrame {
 		setJMenuBar(menuBar);
 		
 		JButton btnNewButton = new JButton("Timetable");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		menuBar.add(btnNewButton);
+		
 		
 		JButton btnNewButton_1 = new JButton("Results");
 		btnNewButton_1.addActionListener(new ActionListener() {

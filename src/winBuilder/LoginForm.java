@@ -54,14 +54,14 @@ public class LoginForm extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel Email = new JLabel("Email");
+		JLabel Email = new JLabel("Email or FirstName");
 		Email.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		Email.setBounds(70, 87, 48, 14);
+		Email.setBounds(68, 88, 154, 14);
 		contentPane.add(Email);
 
-		JLabel Password = new JLabel("Password");
+		JLabel Password = new JLabel("Password or RegNum");
 		Password.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		Password.setBounds(70, 138, 66, 14);
+		Password.setBounds(57, 138, 168, 14);
 		contentPane.add(Password);
 
 		JLabel Heading = new JLabel("KTPS Login");
@@ -70,13 +70,13 @@ public class LoginForm extends JFrame {
 		contentPane.add(Heading);
 
 		inputEmail = new JTextField();
-		inputEmail.setBounds(162, 82, 160, 27);
+		inputEmail.setBounds(209, 82, 160, 27);
 		contentPane.add(inputEmail);
 		inputEmail.setColumns(10);
 
 		inputPassword = new JPasswordField();
 		inputPassword.setColumns(10);
-		inputPassword.setBounds(162, 133, 160, 27);
+		inputPassword.setBounds(209, 132, 160, 27);
 		contentPane.add(inputPassword);
 
 		JButton Cancel = new JButton("Cancel");
@@ -113,17 +113,25 @@ public class LoginForm extends JFrame {
 					ResultSet rs = stm.executeQuery(query);
 					
 					if(rs.next()) {
-						// email and password are true
-						// close login form 
 						dispose();
-						// see student details
 						HomePage view = new HomePage();
 						view.setVisible(true);
-					}else{
-						// email or password is false
-						JOptionPane.showMessageDialog(Submit, "Incorrect credentials");	
-//						inputEmail.setText("");
-//						inputPassword.setText("");	
+					} else{
+						String query2 = "SELECT * FROM students WHERE firstName='"+ email +"' and regNum='"+ password+"'";	
+						ResultSet rs2 = stm.executeQuery(query2);
+						
+						if(rs2.next()) {
+							int id = rs2.getInt("id");
+							dispose();
+							StudentHomePage view = new StudentHomePage(id);
+							view.setVisible(true);
+						}else{
+							// firstName or regNum is false
+							JOptionPane.showMessageDialog(Submit, "Incorrect credentials");	
+							inputEmail.setText("");
+							inputPassword.setText("");	
+						}
+					
 					}
 				}catch(Exception exception) {
 					System.out.println(exception.getMessage());
