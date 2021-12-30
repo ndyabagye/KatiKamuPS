@@ -34,21 +34,21 @@ public class HomePageStudent extends JFrame {
 		setTitle("Student Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 651, 513);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JButton btnNewButton_1 = new JButton("Timetable");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentPanel spanel = new StudentPanel();	
+				StudentPanel spanel = new StudentPanel();
 				setContentPane(spanel);
 				getContentPane().revalidate();
 			}
 		});
-		
+
 		menuBar.add(btnNewButton_1);
-		
+
 		JButton btnNewButton_2 = new JButton("Results");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
