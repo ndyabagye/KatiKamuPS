@@ -64,11 +64,11 @@ public class StudentPanel extends JPanel {
     		exe.printStackTrace();
     	}
 		
+        DefaultTableModel model = new DefaultTableModel(data, columns);
+        
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			data,
-			columns
-		));
+		table.setModel(model);
+		
 		scrollPane.setViewportView(table);
 		
 		table.addMouseListener(new MouseAdapter() {
@@ -117,6 +117,64 @@ public class StudentPanel extends JPanel {
 				//JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
             }
          });
+		
+		JButton regButton = new JButton("Register Students"); 
+        regButton.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		
+        		RegisterStudentForm student = new RegisterStudentForm();
+        		student.setVisible(true);
+        		
+        		student.addWindowListener(new WindowAdapter(){
+					@Override
+					public void windowClosing(WindowEvent w){
+						
+				        DefaultTableModel model = (DefaultTableModel)table.getModel();
+				        model.setRowCount(0);
+				        
+				        try {
+				    		Connection connection = new DbConnection().getDbConnection();
+				    		String query = "SELECT * FROM students";
+
+				    	    // create the java statement
+				    	    Statement studentStatement = connection.createStatement();
+				    	      
+				    	    // execute the query, and get a java
+				    	    ResultSet studentResult = studentStatement.executeQuery(query);
+				    	 
+				    		
+				    	    // iterate through the java
+				    	    while (studentResult.next()){
+				    	        int id = studentResult.getInt("id");
+				    	        String regNum = studentResult.getString("regNum");
+				    	        String studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
+				    	        String studAge = studentResult.getString("stuAge");
+				    	        String studClass = studentResult.getString("stuClass");
+				    	        String studGender = studentResult.getString("stuGender");
+				    	        String [] student = {String.valueOf(id), regNum,studName, studAge, studClass, studGender};
+				    	        
+				    	        model.addRow(student);
+					    	    
+				    	    }
+				    	    
+				    	    
+				    	    studentStatement.close();
+				    	}catch(Exception exe) {
+				    		System.out.println("here");
+				    		exe.printStackTrace();
+				    	}
+				        
+				   
+					}
+				});
+
+        	}
+        });
+         
+        JPanel y = new JPanel();
+        y.add(regButton);
+        
 		        
         //Sort table section
         TableRowSorter<TableModel> sort = new TableRowSorter<>(table.getModel());
@@ -127,6 +185,9 @@ public class StudentPanel extends JPanel {
         JPanel p = new JPanel(new BorderLayout());
         p.add(new JLabel("Search students:"), BorderLayout.WEST);
         p.add(textField, BorderLayout.CENTER);
+        p.add(y, BorderLayout.SOUTH);
+        
+        
         setLayout(new BorderLayout());
         add(p, BorderLayout.SOUTH);
         add(new JScrollPane(table), BorderLayout.CENTER);

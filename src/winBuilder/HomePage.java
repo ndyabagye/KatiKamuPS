@@ -72,12 +72,10 @@ public class HomePage extends JFrame {
 		});
 		menuBar.add(btnNewButton_2);
 		
-		JButton btnNewButton = new JButton("Registration");
+		JButton btnNewButton = new JButton("Teachers");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentRegistrationPanel srpanel = new StudentRegistrationPanel();
-				setContentPane(srpanel);
-				getContentPane().revalidate();
+			
 			}
 		});
 		menuBar.add(btnNewButton);

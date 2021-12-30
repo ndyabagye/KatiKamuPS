@@ -78,7 +78,7 @@ public class EditStudentForm extends JFrame {
       	        String studClass = studentResult.getString("stuClass");
       	        String studGender = studentResult.getString("stuGender");
       	       
-      	      setTitle("Edit Student Form");
+      	    setTitle("Edit Student Form");
       		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       		setBounds(100, 100, 500, 325);
       		contentPane = new JPanel();
