@@ -105,11 +105,12 @@ public class StudentLoginForm extends JFrame {
 					ResultSet rs = stm.executeQuery(query);
 					
 					if(rs.next()) {
+						int id = rs.getInt("id");
 						// firstName and regNum are true
 						// close login form 
 						dispose();
 						// see student details
-						HomePage view = new HomePage();
+						StudentHomePage view = new StudentHomePage(id);
 						view.setVisible(true);
 					}else{
 						// firstName or regNum is false

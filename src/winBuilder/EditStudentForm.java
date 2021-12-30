@@ -97,7 +97,7 @@ public class EditStudentForm extends JFrame {
       		FirstName.setBounds(56, 81, 75, 22);
       		contentPane.add(FirstName);
       		
-      		JLabel LastName = new JLabel("Last Name ");
+      		JLabel LastName = new JLabel("L Name ");
       		LastName.setFont(new Font("Tahoma", Font.PLAIN, 13));
       		LastName.setBounds(260, 81, 75, 22);
       		contentPane.add(LastName);

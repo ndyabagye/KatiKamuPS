@@ -22,7 +22,7 @@ public class StudentHomePage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentHomePage frame = new StudentHomePage();
+					StudentHomePage frame = new StudentHomePage(1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +34,7 @@ public class StudentHomePage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StudentHomePage() {
+	public StudentHomePage(int id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
