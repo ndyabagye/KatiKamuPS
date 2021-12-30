@@ -73,7 +73,7 @@ public class HomePage extends JFrame {
 		JButton btnNewButton_3 = new JButton("Timetable");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TimetablePanel spanel = new TimetablePanel();	
+				TimeTablePanel spanel = new TimeTablePanel();	
 				setContentPane(spanel);
 				getContentPane().revalidate();
 			}

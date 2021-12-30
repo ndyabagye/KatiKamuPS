@@ -6,13 +6,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
-public class TimetablePanel extends JPanel {
+public class TimeTablePanel extends JPanel {
 	private JTable table;
 
 	/**
 	 * Create the panel.
 	 */
-	public TimetablePanel() {
+	public TimeTablePanel() {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
