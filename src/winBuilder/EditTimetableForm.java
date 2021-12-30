@@ -190,7 +190,6 @@ public class EditTimetableForm extends JFrame {
 
 						if(classT.getSelectedIndex()== 0) {
 							JOptionPane.showMessageDialog(updateBtn, "Select a proper class");
-							System.out.("Select a proper class");
 							return;
 						}else {
 							strClass = classT.getSelectedItem().toString();
