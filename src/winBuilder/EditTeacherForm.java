@@ -25,25 +25,11 @@ public class EditTeacherForm extends JFrame {
 	private JTextField fName;
 	private JTextField lName;
 	private JTextField emailField;
+	
+	private String firstName;
+	private String lastName;
+	private String email;
 
-	private char[] password;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditTeacherForm frame = new EditTeacherForm(1);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public EditTeacherForm(int id) {
 		try {
     		Connection connection = new DbConnection().getDbConnection();
@@ -54,9 +40,9 @@ public class EditTeacherForm extends JFrame {
 
     		while (teacherResult.next()) {
     			int teachId = teacherResult.getInt("id");
-      	        String firstName = teacherResult.getString("firstName");
-      	        String lastName = teacherResult.getString("lastName");
-      	        String email = teacherResult.getString("email");
+      	        firstName = teacherResult.getString("firstName");
+      	        lastName = teacherResult.getString("lastName");
+      	        email = teacherResult.getString("email");
 
 				setTitle("Edit Teacher Form");
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -125,6 +111,10 @@ public class EditTeacherForm extends JFrame {
 			      	    		ResultSet updateResult = teacherStatement.executeQuery(getTeacherQuery);
 
 			      	    		while (updateResult.next()) {
+			      	    			
+			      	    			firstName = upfirstName;
+			      	      	        lastName = uplastName;
+			      	      	        email = upemail;
 
 			      	    			fName.setText(upfirstName);
 			          				lName.setText(uplastName);

@@ -17,25 +17,6 @@ import javax.swing.border.EmptyBorder;
 
 public class HomePage extends JFrame {
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HomePage frame = new HomePage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public HomePage() {
 		setTitle("Teacher Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

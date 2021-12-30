@@ -29,19 +29,6 @@ public class SubjectMarks extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SubjectMarks frame = new SubjectMarks("Maths");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public SubjectMarks(String subject) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 400);

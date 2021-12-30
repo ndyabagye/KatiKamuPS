@@ -33,27 +33,7 @@ public class RegisterStudentForm extends JFrame {
 	private String stuClass;
 	private String stuGender;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterStudentForm frame = new RegisterStudentForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public RegisterStudentForm() {
-
 		setTitle("Edit Student Form");
   		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
   		setBounds(100, 100, 500, 325);

@@ -28,25 +28,14 @@ public class EditMarksForm extends JFrame {
 	private JTextField sst;
 	private JTextField english;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditMarksForm frame = new EditMarksForm(1);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
+	private String regNum;
+	private String studName;
+	private String studMath; 
+    private String studSci; 
+    private String studSST; 
+    private String studEnglish;
+	
 	public EditMarksForm(int id) {
 		try {
     		Connection connection = new DbConnection().getDbConnection();
@@ -57,12 +46,12 @@ public class EditMarksForm extends JFrame {
 
     		while (studentResult.next()) {
     			int tstudId = studentResult.getInt("id");
-    			String regNum = studentResult.getString("regNum");
-    	        String studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
-    	        String studMath = String.valueOf(studentResult.getInt("Maths"));
-    	        String studSci = String.valueOf(studentResult.getInt("Science"));
-    	        String studSST = String.valueOf(studentResult.getInt("SST"));
-    	        String studEnglish = String.valueOf(studentResult.getInt("English"));
+    			regNum = studentResult.getString("regNum");
+    	        studName = studentResult.getString("firstName") +" "+ studentResult.getString("lastName");
+    	        studMath = String.valueOf(studentResult.getInt("Maths"));
+    	        studSci = String.valueOf(studentResult.getInt("Science"));
+    	        studSST = String.valueOf(studentResult.getInt("SST"));
+    	        studEnglish = String.valueOf(studentResult.getInt("English"));
 
       	      	setTitle("Edit Marks Form");
       	      	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -170,7 +159,12 @@ public class EditMarksForm extends JFrame {
 		      	    		ResultSet updateResult = studentStatement.executeQuery(getStudentQuery);
 
 		      	    		while (updateResult.next()) {
-
+		      	    			
+		      	    			studMath = upmaths;
+		      	    			studSci = upscience;
+		      	    			studSST = upsst;
+		      	    			studEnglish = upenglish;
+		      	    					
 		      	    			maths.setText(upmaths);
 		          				science.setText(upscience);
 		          				sst.setText(upsst);
@@ -193,7 +187,10 @@ public class EditMarksForm extends JFrame {
       		JButton cancelBtn = new JButton("Cancel");
       		cancelBtn.addActionListener(new ActionListener() {
       			public void actionPerformed(ActionEvent e) {
-
+      				maths.setText(studMath);
+      				science.setText(studSci);
+      				sst.setText(studSST);
+      				english.setText(studEnglish);
       			}
       		});
       		cancelBtn.setForeground(Color.RED);

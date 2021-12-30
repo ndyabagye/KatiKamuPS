@@ -32,25 +32,6 @@ public class RegisterTeacherForm extends JFrame {
 	
 	private char[] password;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterTeacherForm frame = new RegisterTeacherForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public RegisterTeacherForm() {
 		setTitle("Register Teacher Form");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

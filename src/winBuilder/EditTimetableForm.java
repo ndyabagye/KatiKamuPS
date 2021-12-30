@@ -29,9 +29,7 @@ public class EditTimetableForm extends JFrame {
 	private JComboBox wed;
 	private JComboBox thur;
 	private JComboBox fri;
-
-
-	// for the control statements
+	
 	private String strClass;
 	private String strMon;
 	private String strTue;
@@ -39,20 +37,14 @@ public class EditTimetableForm extends JFrame {
 	private String strThur;
 	private String strFri;
 	private int index;
+	
+	private String classC;
+    private String monC ;
+    private  String tueC ;
+    private  String wedC ;
+    private  String thurC ;
+    private  String friC ;
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditTimetableForm frame = new EditTimetableForm(1);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public EditTimetableForm(int id) {
 
@@ -65,12 +57,12 @@ public class EditTimetableForm extends JFrame {
 
     		while (timetableResult.next()) {
     			int timeTid = timetableResult.getInt("id");
-      	        String classC = timetableResult.getString("class");
-      	        String monC = timetableResult.getString("Monday");
-      	        String tueC = timetableResult.getString("Tuesday");
-      	        String wedC = timetableResult.getString("Wednesday");
-      	        String thurC = timetableResult.getString("Thursday");
-      	        String friC = timetableResult.getString("Friday");
+      	        classC = timetableResult.getString("class");
+      	        monC = timetableResult.getString("Monday");
+      	        tueC = timetableResult.getString("Tuesday");
+      	        wedC = timetableResult.getString("Wednesday");
+      	        thurC = timetableResult.getString("Thursday");
+      	        friC = timetableResult.getString("Friday");
 
 				setTitle("Edit Timetable");
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -245,6 +237,14 @@ public class EditTimetableForm extends JFrame {
 								ResultSet updateResult = timetableStatement.executeQuery(getTimetableQuery);
 
 			      	    		while (updateResult.next()) {
+			      	    			
+			      	    			classC = strClass;
+			      	      	        monC = strMon;
+			      	      	        tueC = strTue;
+			      	      	        wedC = strWed;
+			      	      	        thurC = strThur;
+			      	      	        friC = strFri;
+
 
 			          				index = classList.indexOf(strClass);
 			          				classT.setSelectedIndex(Integer.valueOf(index));
@@ -289,6 +289,23 @@ public class EditTimetableForm extends JFrame {
 				JButton cancelBtn = new JButton("Reset");
 				cancelBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+          				index = classList.indexOf(classC);
+          				classT.setSelectedIndex(Integer.valueOf(index));
+
+          				index = monList.indexOf(monC);
+          				mon.setSelectedIndex(Integer.valueOf(index));
+
+          				index = wedList.indexOf(tueC);
+          				tue.setSelectedIndex(Integer.valueOf(index));
+
+          				index = wedList.indexOf(wedC);
+          				wed.setSelectedIndex(Integer.valueOf(index));
+
+          				index = thurList.indexOf(thurC);
+          				thur.setSelectedIndex(Integer.valueOf(index));
+
+          				index = friList.indexOf(friC);
+          				fri.setSelectedIndex(Integer.valueOf(index));
 
 					}
 				});

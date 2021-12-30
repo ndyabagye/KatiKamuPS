@@ -21,9 +21,6 @@ public class StudentMarkpanel extends JPanel {
 	private JTextField english;
 
 	public StudentMarkpanel(int id) {
-
-
-
 		try {
     		Connection connection = new DbConnection().getDbConnection();
     		Statement studentStatement = connection.createStatement();
